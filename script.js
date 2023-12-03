@@ -65,7 +65,7 @@ function nextQuestion() {
 
   // Display the question
   const questionDiv = document.getElementById('question');
-  questionDiv.textContent = 'Question: ' + questionData.slice(1).join(', ');
+  questionDiv.textContent = questionData.slice(1).join(', ');
 
   // Display the options
   for (let i = 0; i < 4; i++) {
@@ -84,12 +84,11 @@ function checkAnswer(selectedIndex) {
   if (selectedIndex === correctIndex) {
     resultDiv.textContent = 'Correct!';
   } else {
-    resultDiv.textContent = 'Incorrect. Correct answer: ' + questionsData[selectedRows[correctIndex]][0];
-    
-    // Display the four options' data in a table
-    const selectedRowsData = selectedRows.map(index => questionsData[index].slice(0, 8)); // Include drug name and the first 7 characteristics
-    displayOptionsTable(selectedRowsData);
+    resultDiv.textContent = '錯爛. 正解 ' + questionsData[selectedRows[correctIndex]][0];
   }
+  // Display the four options' data in a table
+  const selectedRowsData = selectedRows.map(index => questionsData[index].slice(0, 8)); // Include drug name and the first 7 characteristics
+  displayOptionsTable(selectedRowsData);
 
   // Show the "Next Question" button
   const nextQuestionButton = document.getElementById('nextQuestion');
@@ -102,23 +101,36 @@ function displayOptionsTable(selectedRowsData) {
 
   const table = document.createElement('table');
   const headerRow = document.createElement('tr');
-
+  // Find max columns of the data 
+  let maxLength = 2;
+  for (const rowData of selectedRowsData) {
+    if(rowData.length > maxLength) {
+      maxLength = rowData.length;
+    }
+  }
   // Create table headers based on the headers from the original Excel data
-  const headers = questionsData[0].slice(0, 8); // Include drug name and the first 7 characteristics
+  const headers = questionsData[0];
   for (const header of headers) {
     const th = document.createElement('th');
     th.textContent = header;
     headerRow.appendChild(th);
   }
-
+  for(i=headers.length; i < maxLength; i++) {
+    const th = document.createElement('th');
+    headerRow.appendChild(th);
+  }
+  
   table.appendChild(headerRow);
 
   // Create table rows for the selected options only
+
   for (const rowData of selectedRowsData) {
     const row = document.createElement('tr');
-    for (let i = 0; i < rowData.length; i++) {
+    for (let i = 0; i < maxLength; i++) {
       const td = document.createElement('td');
-      td.textContent = rowData[i];
+      if(i < rowData.length) {
+        td.textContent = rowData[i];
+      }
       row.appendChild(td);
     }
     table.appendChild(row);

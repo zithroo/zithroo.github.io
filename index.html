@@ -3,18 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="style.css">
   <title>Drug Quiz</title>
 </head>
 <body>
   <input type="file" id="excelFile" accept=".xlsx, .xls" />
   <button onclick="readExcel()">Start Quiz</button>
 
-  <div id="question"></div>
+  <div id="question-container">
+  	<div id="question"></div>
+  </div>
   <div id="options"></div>
   <div id="result"></div>
+  <button id="nextQuestion" onclick="nextQuestion()" style="display: none;">Next Question</button>
   <div id="optionsTable"></div>
 
-  <button id="nextQuestion" onclick="nextQuestion()" style="display: none;">Next Question</button>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
   <script src="script.js"></script>
